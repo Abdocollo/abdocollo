@@ -1,16 +1,24 @@
-### Hi there 👋
+name: Windows-CRD
 
-<!--
-**Abdocollo/abdocollo** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+on: 
+  workflow_dispatch:
+    inputs:
+      authcode:
+        description: 'Enter CRD code'
+        required: true
+      pincode:
+        description: 'Six digit Pin'
+        required: true
+  
+jobs:
+  build:
+    runs-on: windows-latest
 
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initializing Setup
+      run: ./setup.ps1
+    - name: Starting CRD
+      run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - name: Keep Alive
+      run: ./timeout.ps1
